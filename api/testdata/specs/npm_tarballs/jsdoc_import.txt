@@ -19,11 +19,11 @@ export type Num = number;
 }
 
 # output
-== /foo.d.ts ==
+== /_dist/foo.d.ts ==
 export type Num = number;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZvby50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLE1BQU0sTUFBTSJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2Zvby50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLE1BQU0sTUFBTSJ9
 
-== /foo.js ==
+== /_dist/foo.js ==
 
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9
 
@@ -31,11 +31,11 @@ export type Num = number;
 export type Num = number;
 
 == /index.d.ts ==
-export const a: import("./foo.d.ts").Num;
+export const a: import("./_dist/foo.d.ts").Num;
 
 == /index.js ==
 
-/** @type {import("./foo.d.ts").Num} */
+/** @type {import("./_dist/foo.d.ts").Num} */
 export const a = 1;
 
 == /jsr.json ==

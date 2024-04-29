@@ -9,8 +9,10 @@ use deno_ast::SourceMap;
 use deno_ast::SourceMapOption;
 use deno_ast::TranspileOptions;
 use deno_graph::FastCheckTypeModule;
+use url::Url;
 
 use crate::npm::import_transform::ImportRewriteTransformer;
+use crate::npm::specifiers::relative_import_specifier;
 
 use super::specifiers::RewriteKind;
 use super::specifiers::SpecifierRewriter;
@@ -18,6 +20,7 @@ use super::specifiers::SpecifierRewriter;
 pub fn transpile_to_js(
   source: &ParsedSource,
   specifier_rewriter: SpecifierRewriter,
+  target_specifier: &Url,
 ) -> Result<String, anyhow::Error> {
   let emit_options = deno_ast::EmitOptions {
     source_map: SourceMapOption::Inline,
@@ -26,7 +29,8 @@ pub fn transpile_to_js(
     keep_comments: true,
   };
 
-  let file_name = source.specifier().path().split('/').last().unwrap();
+  let file_name =
+    relative_import_specifier(target_specifier, source.specifier());
   let source_map =
     SourceMap::single(file_name, source.text_info().text_str().to_owned());
 
@@ -70,6 +74,7 @@ pub fn transpile_to_dts(
   source: &ParsedSource,
   fast_check_module: &FastCheckTypeModule,
   specifier_rewriter: SpecifierRewriter,
+  target_specifier: &Url,
 ) -> Result<String, anyhow::Error> {
   let dts = fast_check_module.dts.as_ref().unwrap();
 
@@ -80,7 +85,8 @@ pub fn transpile_to_dts(
     keep_comments: true,
   };
 
-  let file_name = source.specifier().path().split('/').last().unwrap();
+  let file_name =
+    relative_import_specifier(target_specifier, source.specifier());
   let source_map =
     SourceMap::single(file_name, source.text_info().text_str().to_owned());
 

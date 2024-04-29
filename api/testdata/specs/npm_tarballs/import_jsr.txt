@@ -33,20 +33,20 @@ await import("jsr:@luca/flag@1")
 <external>
 
 # output
+== /_dist/baz.d.ts ==
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9
+
+== /_dist/baz.js ==
+import { html } from "@jsr/luca__flag";
+html();
+await import("@jsr/luca__flag");
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2Jhei50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxTQUFTLElBQUksMEJBQTJCO0FBQ3hDO0FBQ0EsTUFBTSxNQUFNLENBQUMifQ==
+
 == /bar.mjs ==
 
 import { html } from "@jsr/luca__flag";
 await import("@jsr/luca__flag")
-
-== /baz.d.ts ==
-
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9
-
-== /baz.js ==
-import { html } from "@jsr/luca__flag";
-html();
-await import("@jsr/luca__flag");
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJhei50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxTQUFTLElBQUksMEJBQTJCO0FBQ3hDO0FBQ0EsTUFBTSxNQUFNLENBQUMifQ==
 
 == /baz.ts ==
 import { html } from "@jsr/luca__flag";
@@ -91,8 +91,8 @@ await import("@jsr/luca__flag")
       "default": "./bar.mjs"
     },
     "./baz": {
-      "types": "./baz.d.ts",
-      "default": "./baz.js"
+      "types": "./_dist/baz.d.ts",
+      "default": "./_dist/baz.js"
     },
     "./fizz": {
       "default": "./fizz.d.ts"

@@ -38,7 +38,7 @@ use super::emit::transpile_to_dts;
 use super::emit::transpile_to_js;
 use super::specifiers::follow_specifier;
 use super::specifiers::relative_import_specifier;
-use super::specifiers::rewrite_file_specifier_extension;
+use super::specifiers::rewrite_file_specifier;
 use super::specifiers::Extension;
 use super::specifiers::RewriteKind;
 use super::specifiers::SpecifierRewriter;
@@ -136,7 +136,7 @@ pub async fn create_npm_tarball<'a>(
       }
       deno_ast::MediaType::Jsx => {
         let source_specifier =
-          rewrite_file_specifier_extension(module.specifier(), Extension::Js);
+          rewrite_file_specifier(module.specifier(), "/_dist", Extension::Js);
         if let Some(source_specifier) = source_specifier {
           source_rewrites.insert(module.specifier(), source_specifier);
         }
@@ -153,16 +153,14 @@ pub async fn create_npm_tarball<'a>(
       }
       deno_ast::MediaType::TypeScript | deno_ast::MediaType::Mts => {
         let source_specifier =
-          rewrite_file_specifier_extension(module.specifier(), Extension::Js);
+          rewrite_file_specifier(module.specifier(), "/_dist", Extension::Js);
         if let Some(source_specifier) = source_specifier.clone() {
           source_rewrites.insert(module.specifier(), source_specifier);
         }
 
         if js.fast_check_module().is_some() {
-          let declaration_specifier = rewrite_file_specifier_extension(
-            module.specifier(),
-            Extension::Dts,
-          );
+          let declaration_specifier =
+            rewrite_file_specifier(module.specifier(), "/_dist", Extension::Dts);
           if let Some(declaration_specifier) = declaration_specifier {
             declaration_rewrites
               .insert(module.specifier(), declaration_specifier);
@@ -216,9 +214,10 @@ pub async fn create_npm_tarball<'a>(
       }
       deno_ast::MediaType::Jsx => {
         let parsed_source = sources.get_parsed_source(&js.specifier).unwrap();
-        let source =
-          transpile_to_js(&parsed_source, specifier_rewriter).unwrap();
         let source_target = source_rewrites.get(&js.specifier).unwrap();
+        let source =
+          transpile_to_js(&parsed_source, specifier_rewriter, source_target)
+            .unwrap();
         package_files
           .insert(source_target.path().to_owned(), source.into_bytes());
       }
@@ -237,20 +236,22 @@ pub async fn create_npm_tarball<'a>(
           .insert(js.specifier.path().to_owned(), rewritten.into_bytes());
 
         let parsed_source = sources.get_parsed_source(&js.specifier).unwrap();
-        let source =
-          transpile_to_js(&parsed_source, specifier_rewriter).unwrap();
         let source_target = source_rewrites.get(&js.specifier).unwrap();
+        let source =
+          transpile_to_js(&parsed_source, specifier_rewriter, source_target)
+            .unwrap();
         package_files
           .insert(source_target.path().to_owned(), source.into_bytes());
 
         if let Some(fast_check_module) = js.fast_check_module() {
+          let declaration_target =
+            declaration_rewrites.get(&js.specifier).unwrap();
           let declaration = transpile_to_dts(
             &parsed_source,
             fast_check_module,
             specifier_rewriter,
+            declaration_target,
           )?;
-          let declaration_target =
-            declaration_rewrites.get(&js.specifier).unwrap();
           package_files.insert(
             declaration_target.path().to_owned(),
             declaration.into_bytes(),

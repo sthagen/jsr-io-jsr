@@ -142,14 +142,18 @@ pub enum Extension {
   Dts,
 }
 
-pub fn rewrite_file_specifier_extension(
+pub fn rewrite_file_specifier(
   specifier: &ModuleSpecifier,
+  prefix: &str,
   new_extension: Extension,
 ) -> Option<ModuleSpecifier> {
   assert_eq!(specifier.scheme(), "file");
   let path = specifier.path();
   let rewritten_path = rewrite_path_extension(path, new_extension)?;
-  Some(ModuleSpecifier::parse(&format!("file://{}", rewritten_path)).unwrap())
+  Some(
+    ModuleSpecifier::parse(&format!("file://{prefix}{rewritten_path}"))
+      .unwrap(),
+  )
 }
 
 pub fn rewrite_path_extension(
