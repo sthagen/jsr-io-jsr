@@ -11,7 +11,10 @@ export const foo = bar();
 # output
 == /_dist/main.js ==
 export const foo = bar();
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL21haW4udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxNQUFNLE1BQU0sTUFBTSJ9
+//# sourceMappingURL=main.js.map
+
+== /_dist/main.js.map ==
+{"version":3,"file":"main.js","sources":["../main.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,MAAM"}
 
 == /jsr.json ==
 {

@@ -23,11 +23,17 @@ this is data
 # output
 == /_dist/foo.d.ts ==
 export declare const foo: string;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2Zvby50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLGNBQU0sS0FBSyxNQUFNLENBQVMifQ==
+//# sourceMappingURL=foo.d.ts.map
+
+== /_dist/foo.d.ts.map ==
+{"version":3,"file":"foo.d.ts","sources":["../foo.ts"],"names":[],"mappings":"AAAA,OAAO,cAAM,KAAK,MAAM,CAAS"}
 
 == /_dist/foo.js ==
 export const foo = 'bar';
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2Zvby50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLE1BQU0sTUFBYyxNQUFNIn0=
+//# sourceMappingURL=foo.js.map
+
+== /_dist/foo.js.map ==
+{"version":3,"file":"foo.js","sources":["../foo.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAc,MAAM"}
 
 == /bar.json ==
 console.log('foo');
