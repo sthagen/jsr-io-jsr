@@ -159,8 +159,11 @@ pub async fn create_npm_tarball<'a>(
         }
 
         if js.fast_check_module().is_some() {
-          let declaration_specifier =
-            rewrite_file_specifier(module.specifier(), "/_dist", Extension::Dts);
+          let declaration_specifier = rewrite_file_specifier(
+            module.specifier(),
+            "/_dist",
+            Extension::Dts,
+          );
           if let Some(declaration_specifier) = declaration_specifier {
             declaration_rewrites
               .insert(module.specifier(), declaration_specifier);
